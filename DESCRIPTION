@@ -1,0 +1,16 @@
+Package: foodprices
+Title: Download Wholesale Price Data from Greek Food Markets
+Version: 0.0.1.9000
+Authors@R: 
+    person("Grigoris", "Lionis", , "grigoris.lionis@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: The packahe downloads wholesale price data from greek food markets. The data are releashed in PDF and XLS formats, and the package downloads the necessary files, exports the data, to a data.frame
+License: `use_mit_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3.9000
+Imports:
+         readxl,
+         stringr,
+         rvest,
+         utils 
