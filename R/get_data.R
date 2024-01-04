@@ -63,7 +63,7 @@ get_data<-function(start_date="01-01-2010",end_date="01-01-2024",cache_path="./f
   file_paths<-file_paths[!is.na(file_paths$name),]
   
   if(!use_cache){
-    cache_path<-tempdir()
+    cache_path<-paste(tempdir(),"/",sep="")
     use_cache=TRUE
   }
   #if cache is not requested, create tmpdir
@@ -97,7 +97,7 @@ get_data<-function(start_date="01-01-2010",end_date="01-01-2024",cache_path="./f
   RES<-NULL
   
   for (fname in kreas){
-    filename=paste("files/",fname,sep="")
+    filename=paste(cache_path,fname,sep="")
     
     if(grepl("xls",fname)) {xls_data(filename) -> d1}
     if(grepl("pdf",fname)) {pdf_read(filename) -> d1}
@@ -105,7 +105,7 @@ get_data<-function(start_date="01-01-2010",end_date="01-01-2024",cache_path="./f
   }
   
   for (fname in laxan){
-    filename=paste("files/",fname,sep="")
+    filename=paste(cache_path,fname,sep="")
     #print(filename)
     if(grepl("xls",fname)) {
       d1<- try(xls_data_fruits(filename))
