@@ -8,7 +8,10 @@ and reads the data into a data.frame
 the function is simple enough and does not proceeds into many checks
 the function returns a data.frame with 5 columns if it succeeds, NULL otherwise}
 \usage{
-pdf_read(link)
+pdf_read(file)
+}
+\arguments{
+\item{file}{pdf file to extract data from}
 }
 \description{
 function to read and clean pdf files with meat prices

@@ -12,6 +12,17 @@ get_data(
   food = "ALL"
 )
 }
+\arguments{
+\item{start_date}{start date,in \%d-\%m-\%Y, for data retrival}
+
+\item{end_date}{end date,in  \%d-\%m-\%Y, for data retrival}
+
+\item{cache_path}{path to store files}
+
+\item{use_cache}{TRUE/FALSE whether to use a cache directory for storing files}
+
+\item{food}{string ALL|MEAT|FRUITS|VEGETABLES to choose kind of food to report}
+}
 \value{
 A dataframe with the requested data
 }

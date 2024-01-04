@@ -14,7 +14,7 @@ xls_data<-function(filename){
   #collapse all text into a single string, and pick nn/nn/nnnn as a date
   date2<-return_date(filename)
   if(date1!=date2){
-    message("Error. Dates do not match")
+    base::message("Error. Dates do not match")
     return(NULL)
   }
   
@@ -37,7 +37,7 @@ xls_data<-function(filename){
   
   stringr::str_trim(l1) -> tmp1
   stringr::str_replace_all(tmp1,"\n","") ->tmp1
-  stringr::str_replace(tmp1,"€","")->tmp1
+  stringr::str_replace(tmp1,"\u0080","")->tmp1
   stringr::str_trim(tmp1) -> l1
   #remove from header new files, euro sing, 
 
@@ -55,14 +55,14 @@ xls_data<-function(filename){
   
   
   
-  reshape(res,idvar="CAT",varying=list(2:4),direction="long",new.row.names = 1:1000) -> tmp1
+  stats::reshape(res,idvar="CAT",varying=list(2:4),direction="long",new.row.names = 1:1000) -> tmp1
   tmp1$time<-names(res)[tmp1$time+1]
   names(tmp1)<-c("CAT","PRICE","value")
   tmp1$BCAT<-"MEAT"
   tmp1$date<-date1
   return(tmp1)
   
-  return(res2)
+  
 }
 
 return_date<-function(string){

@@ -2,7 +2,11 @@
 #' 
 #' This function reads the price data from the website, and returns
 #' a data frame with the requested data. 
-#' 
+#' @param start_date start date,in %d-%m-%Y, for data retrival
+#' @param end_date end date,in  %d-%m-%Y, for data retrival
+#' @param use_cache TRUE/FALSE whether to use a cache directory for storing files
+#' @param cache_path path to store files
+#' @param food string ALL|MEAT|FRUITS|VEGETABLES to choose kind of food to report
 #' @export
 #' @return A dataframe with the requested data
 get_data<-function(start_date="01-01-2010",end_date="01-01-2024",cache_path="./files/",use_cache = FALSE,food="ALL"){

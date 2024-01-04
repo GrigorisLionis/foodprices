@@ -1,8 +1,3 @@
-#' function to read pdf with vegetable data
-#' and helper function to dissect string into values
-#' function pdf_read_fruts(fname) returns a data.frame if succesfull, NULL otherwise
-#' function import utils and pdf_tools
-
 dissect_str<-function(string){
   eid<-stringr::str_sub(string,3,35)
   eid<-stringr::str_remove_all(eid,"[0-9,-]")
@@ -13,14 +8,18 @@ dissect_str<-function(string){
   return(NULL)
 }
 
-
-pdf_read_fruits<-function(link)
+#' function to read pdf with vegetable data
+#' and helper function to dissect string into values
+#' function pdf_read_fruts(fname) returns a data.frame if succesfull, NULL otherwise
+#' function import utils and pdf_tools
+#' @param filen file to extract data from
+pdf_read_fruits<-function(filen)
 {
-    date_str<-stringr::str_extract(link,"[0-9]{8}")
+    date_str<-stringr::str_extract(filen,"[0-9]{8}")
     date2<-as.Date(date_str,"%Y%m%d")
     
     
-    text1<-try(pdftools::pdf_text(pdf=link))
+    text1<-try(pdftools::pdf_text(pdf=filen))
     if ("try-error" %in% class(text1)){
       message("Error reading PDF") 
       return(NULL) }
@@ -36,7 +35,7 @@ pdf_read_fruits<-function(link)
       message("DATE ERROR")
       return(NULL)}
     if( date1!=date2){
-      message("Dates different in file content - file name")
+      base::message("Dates different in file content - file name")
       return(NULL)
       }
     
@@ -57,17 +56,17 @@ pdf_read_fruits<-function(link)
       message("DID NOT FIND TEXT")
       return(NULL)}
     if(length(pRow)==0) {
-      message("PROW O")
+      base::message("PROW O")
       return(NULL)}
     if(length(dRow)==0) 
-    {message ("DROW O")
+    {base::message ("DROW O")
       return(NULL)}
     
     if(dRow==0) {
-      message("Error. did not find text marker")
+      base::message("Error. did not find text marker")
       return(NULL)}
     if(pRow==0) {
-      message("Error. did not find text marker")
+      base::message("Error. did not find text marker")
       return(NULL)}
     
     if((pRow-dRow)<2)  return(NULL)
@@ -87,7 +86,7 @@ pdf_read_fruits<-function(link)
     
     #here checks have to be implemented
     df<-data.frame(col1=character(),col2=character(),col3=character(),col4=character(),stringsAsFactors = FALSE)
-   capture.output(names(df)<-c("eidos","dominant","dom_1Y","dom_1W"),file=NULL)
+   utils::capture.output(names(df)<-c("eidos","dominant","dom_1Y","dom_1W"),file=NULL)
     dfrow=1
     for (t in vegs1){   
        if(length(t)>2) { #some rows are nearly empty, drop them
@@ -98,7 +97,7 @@ pdf_read_fruits<-function(link)
     
     
     df1<-data.frame(col1=character(),col2=character(),col3=character(),col4=character(),stringsAsFactors = FALSE)
-    capture.output(names(df1)<-c("eidos","dominant","dom_1Y","dom_1W"),file=NULL)
+    utils::capture.output(names(df1)<-c("eidos","dominant","dom_1Y","dom_1W"),file=NULL)
     dfrow=1
     for (t in fruits){   
       if(length(t)>2) { #some rows are nearly empty, drop them
@@ -113,13 +112,13 @@ pdf_read_fruits<-function(link)
     df1$dom_1W<-as.double(stringr::str_replace(df1$dom_1W,",","."))
     utils::capture.output(names(df)<-c("CAT","DOMINANT","DOMINANT_1Y","DOMINANT_1W"),file=NULL)
     
-    reshape(df,idvar=c("CAT"),varying=list(2:4),direction="long",new.row.names = 1:1000) -> tmp
+    stats::reshape(df,idvar=c("CAT"),varying=list(2:4),direction="long",new.row.names = 1:1000) -> tmp
     tmp$time<-names(df)[tmp$time+1]
     names(tmp)<-c("CAT","PRICE","value")
     tmp$date<-date1
     utils::capture.output(names(df1)<-c("CAT","DOMINANT","DOMINANT_1Y","DOMINANT_1W"),file=NULL)
     
-    reshape(df1,idvar=c("CAT"),varying=list(2:4),direction="long",new.row.names = 1:1000) -> tmp1
+    stats::reshape(df1,idvar=c("CAT"),varying=list(2:4),direction="long",new.row.names = 1:1000) -> tmp1
     tmp1$time<-names(df)[tmp1$time+1]
     names(tmp1)<-c("CAT","PRICE","value")
     tmp1$date<-date1

@@ -47,7 +47,7 @@ xls_data_fruits<-function(filename){
   df$BCAT<-NULL
   df$num<-NULL
   df$RN<-NULL 
-  reshape(df,idvar="CAT",varying=list(2:7),direction="long",new.row.names = 1:1000) -> tmp1
+  stats::reshape(df,idvar="CAT",varying=list(2:7),direction="long",new.row.names = 1:1000) -> tmp1
   tmp1$time<-names(df)[tmp1$time+1]
   names(tmp1)<-c("CAT","PRICE","value")
   tmp1$date<-date2

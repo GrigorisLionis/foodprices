@@ -3,16 +3,17 @@
 #' and reads the data into a data.frame
 #' the function is simple enough and does not proceeds into many checks
 #' the function returns a data.frame with 5 columns if it succeeds, NULL otherwise
+#' @param file pdf file to extract data from
 
-pdf_read<-function(link)
+pdf_read<-function(file)
 {
     
-    date_str<-stringr::str_extract(link,"[0-9]{8}")
+    date_str<-stringr::str_extract(file,"[0-9]{8}")
     date2<-as.Date(date_str,"%Y%m%d")
     
-    text1<-try(pdftools::pdf_text(pdf=link))
+    text1<-try(pdftools::pdf_text(pdf=file))
     if ("try-error" %in% class(text1)) {
-      message("Pdf Error")
+      base::message("Pdf Error")
       return(NULL)
     }
     
@@ -21,10 +22,10 @@ pdf_read<-function(link)
     stringr::str_split(text1,"\n") ->text2 #split text with new lines
     text2[[1]]->text3
     if(is.na(date1)){
-      message("Date error")
+      base::message("Date error")
       return(NULL)}
     if( date1!=date2){
-      messase("Different dates in file name and file content")
+      base::message("Different dates in file name and file content")
       return(NULL)
       }
     
@@ -38,11 +39,11 @@ pdf_read<-function(link)
     if(!is.numeric(dRow)| !is.numeric(pRow)) {
       print(dRow)
       print(pRow)
-      message("Error. Did not fine text markers to extract data")
+      base::message("Error. Did not fine text markers to extract data")
       return(NULL)}
-    if(length(pRow)==0) {message ("Error. PROW O")
+    if(length(pRow)==0) {base::message ("Error. PROW O")
       return(NULL)}
-    if(length(dRow)==0) {message ("DROW O")
+    if(length(dRow)==0) {base::message ("DROW O")
       return(NULL)}
     
     if(dRow==0) {return(NULL)}
@@ -74,9 +75,9 @@ pdf_read<-function(link)
     df$evros2<-stringr::str_replace_all(df$evros2,",",".")
     df[1]<-NULL    #drop first column
     
-    capture.output(names(df)<-c("CAT","LOWER","HIGHER","DOMINANT","EVR1","EVR2"),file=NULL)
+    utils::capture.output(names(df)<-c("CAT","LOWER","HIGHER","DOMINANT","EVR1","EVR2"),file=NULL)
   
-    reshape(df,idvar="CAT",varying=list(2:6),direction="long",new.row.names = 1:1000) -> tmp1
+    stats::reshape(df,idvar="CAT",varying=list(2:6),direction="long",new.row.names = 1:1000) -> tmp1
     tmp1$time<-names(df)[tmp1$time+1]
     names(tmp1)<-c("CAT","PRICE","value")
     tmp1$date<-date1
