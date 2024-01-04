@@ -4,8 +4,7 @@ Goal of this project is to parse the data and provied a easy to use data source.
 
 ## description
 Main function is in file get_data.R. 
-It reads the data pages, extracts the links,  composes a list of all the xls and pdf links for downloading. For downloading, we use system wget, to avoid messing with utf8 on the url.
-Also contains code to parse the xls files.
+It reads the data pages, extracts the links,  composes a list of all the xls and pdf links for downloading,downloads the files, and parses to a data.frame. 
 
 ## usage
 
@@ -18,8 +17,6 @@ get_data(start_date,end_data,cache_path,use_cache,food)
 return value is a data.frame with the requested info
 
 ### ToDo
-* have to check
-* dates from html files
 * incorporate more correctness tests (date from xls file, date from link, date from file name should match)
 * retain all data of xls-pdf files.
 * translate to english
