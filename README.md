@@ -1,4 +1,4 @@
-# laxanagora
+# foodprices
 Price data for the central furit market of Athens is released four times per week. The price data are released in xls and pdf files
 Goal of this project is to parse the data and provied a easy to use data source.
 
